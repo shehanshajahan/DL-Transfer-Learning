@@ -30,7 +30,7 @@ Evaluate the model with test accuracy, confusion matrix, classification report, 
 ### Name: Shehan Shajahan
 ### Register Number: 212223240154
 
-```python
+```py
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -49,7 +49,7 @@ import warnings
 warnings.filterwarnings("ignore")
 ```
 
-```
+```py
 train_transform = transforms.Compose([
         transforms.RandomRotation(10),      # rotate +/- 10 degrees
         transforms.RandomHorizontalFlip(),  # reverse 50% of images
@@ -70,7 +70,7 @@ test_transform = transforms.Compose([
 ```
 
 
-```
+```py
 root = '/content/drive/MyDrive/archive (1)/DogsCats'
 
 train_data = datasets.ImageFolder(os.path.join(root, '/content/drive/MyDrive/archive (1)/train_test/Train'), transform=train_transform)
@@ -88,17 +88,17 @@ print(f'Testing images available:  {len(test_data)}')
 ```
 
 
-```
+```py
 VGG19model = models.vgg19(pretrained=True)
 ```
 
-```
+```py
 for param in VGG19model.parameters():
     param.requires_grad = False
 
 ```
 
-```
+```py
 torch.manual_seed(42)
 VGG19model.classifier = nn.Sequential(
     nn.Linear(25088, 1024),
@@ -110,18 +110,18 @@ VGG19model.classifier = nn.Sequential(
 ```
 
 
-```
+```py
 for param in VGG19model.parameters():
     print(param.numel())
 ```
 
 
-```
+```py
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(VGG19model.classifier.parameters(), lr=0.001)
 ```
 
-```
+```py
 # Set time tracking
 import time
 start_time = time.time()
@@ -196,14 +196,14 @@ print(f'\nDuration: {time.time() - start_time:.0f} seconds') # print the time el
 
 
 
-```
+```py
 print(test_correct)
 print(f'Test accuracy: {test_correct[-1].item()*100/len(test_data):.3f}%')
 ```
 
 
 
-```
+```py
 inv_normalize = transforms.Normalize(
     mean=[-0.485/0.229, -0.456/0.224, -0.406/0.225],
     std=[1/0.229, 1/0.224, 1/0.225]
@@ -211,7 +211,7 @@ inv_normalize = transforms.Normalize(
 ```     
 
 
-```
+```py
 image_index = 16
 im = inv_normalize(test_data[image_index][0])
 plt.imshow(np.transpose(im.numpy(), (1, 2, 0)));
@@ -219,7 +219,7 @@ plt.show()
 ```
 
 
-```
+```py
 # VGG19 Model Prediction:
 
 VGG19model.eval()
@@ -230,7 +230,7 @@ class_names[new_pred.item()]
 
 ```
 
-```
+```py
 
 # Create a loader for the entire the test set
 test_load_all = DataLoader(test_data, batch_size=20, shuffle=False)
